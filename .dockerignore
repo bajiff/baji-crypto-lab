@@ -1,0 +1,14 @@
+node_modules
+dist
+.git
+.gitignore
+.vscode
+.gemini
+*.log
+npm-debug.log*
+docker-compose*.yml
+Dockerfile
+nginx.conf
+README.md
+CLAUDE.md
+planning.md
