@@ -8,13 +8,14 @@
   ![Tailwind CSS](https://img.shields.io/badge/Tailwind%20v4.x-38B2AC?style=for-the-badge&logo=tailwind-css&logoColor=white)
   ![TypeScript](https://img.shields.io/badge/TypeScript%20Strict-3178C6?style=for-the-badge&logo=typescript&logoColor=white)
   ![Web Crypto API](https://img.shields.io/badge/Web%20Crypto%20API-4A154B?style=for-the-badge&logo=webrtc&logoColor=white)
+  ![Vitest](https://img.shields.io/badge/Vitest%2036%20Tests%20Passed-6E9F18?style=for-the-badge&logo=vitest&logoColor=white)
   ![Docker](https://img.shields.io/badge/Docker-2496ED?style=for-the-badge&logo=docker&logoColor=white)
   ![License](https://img.shields.io/badge/License-MIT-green?style=for-the-badge)
 </div>
 
 ---
 
-**Baji Crypto Lab** adalah aplikasi web *single-purpose* bergaya **Neobrutalism** yang dirancang untuk melakukan transformasi teks kriptografis dan klasikal secara interaktif langsung di dalam browser (*client-side*). Aplikasi ini mendukung eksekusi **Single Mode** maupun **Combination Mode (Pipeline)**, di mana pengguna dapat merangkai berbagai algoritma enkripsi secara berurutan dengan fitur *Drag & Drop*, ekspor/impor resep (*Recipe Manager*), dan berbagi tautan konfigurasi (*URL-based sharing*).
+**Baji Crypto Lab** adalah aplikasi web *single-purpose* bergaya **Neobrutalism** yang dirancang untuk melakukan transformasi teks kriptografis dan klasikal secara interaktif langsung di dalam browser (*client-side*). Aplikasi ini mendukung eksekusi **Single Mode** maupun **Combination Mode (Pipeline)**, di mana pengguna dapat merangkai berbagai algoritma enkripsi secara berurutan dengan fitur *Drag & Drop*, ekspor/impor resep (*Recipe Manager*), berbagi tautan konfigurasi (*URL-based sharing*), penyimpanan riwayat (*History localStorage*), hingga deteksi otomatis jenis encoding teks input secara *real-time*.
 
 ---
 
@@ -54,18 +55,27 @@
    - **Single Mode:** Enkripsi dan dekripsi teks secara instan menggunakan satu algoritma pilihan.
    - **Pipeline Mode:** Gabungkan beberapa algoritma sekaligus (contoh: `Base64 → Caesar → AES-256-GCM`). Enkripsi dieksekusi berurutan dari awal ke akhir, sementara dekripsi **secara otomatis dibalik urutannya** (`AES-256-GCM → Caesar → Base64`) untuk mencegah kesalahan logika kriptografi.
 2. **🧩 Recipe Manager & URL Sharing:**
-   - Simpan rangkaian pipeline favorit sebagai file JSON (Export/Import).
-   - Bagikan konfigurasi enkripsi/dekripsi kompleks kepada rekan tim melalui tautan URL terenkode.
+   - Simpan rangkaian pipeline favorit sebagai file JSON (Export/Import/Paste).
+   - Bagikan konfigurasi enkripsi/dekripsi kompleks kepada rekan tim melalui tautan URL terenkode (`?recipe=...`) yang otomatis memuat konfigurasi saat dibuka.
 3. **✋ Drag & Drop Pipeline Builder:**
    - Susun dan ubah urutan eksekusi algoritma dengan mudah menggunakan antarmuka interaktif berbasis `@dnd-kit/core`.
-4. **🛡️ Algoritma Kriptografi & Klasikal (Registry Pattern):**
+4. **📜 Riwayat Transformasi (History localStorage):**
+   - Menyimpan otomatis maksimal 50 riwayat enkripsi dan dekripsi terakhir di dalam peramban pengguna.
+   - Dilengkapi tombol salin hasil (*Copy Output*), penghapusan per item, pembersihan total, dan tombol **"+ Muat Ulang Input ke Kolom Teks"** untuk mengisi kembali teks ke workspace secara instan.
+   - **Aman Secara Ketat:** Kata sandi atau parameter rahasia tidak pernah disimpan ke dalam `localStorage` demi keamanan dasar.
+5. **🔍 Deteksi Otomatis Jenis Encoding (Auto-Detection):**
+   - Mendeteksi format teks yang diketik atau ditempel ke kolom input secara *real-time* dan menampilkan lencana visual informatif.
+   - Mampu mengenali **Base64 Encoding**, **Hexadecimal (Hex)**, **Biner 8-bit**, **URL Percent-Encoding**, **JSON Structured Data**, hingga **Teks ASCII Biasa**.
+6. **📖 Ensiklopedia & Edukasi Cipher (`/about`):**
+   - Halaman khusus bergaya Neobrutalism yang menjelaskan sejarah asal-usul, rumus dan mekanisme matematis, serta tingkat keamanan dari setiap algoritma yang tersedia.
+7. **🛡️ Algoritma Kriptografi & Klasikal (Registry Pattern):**
    - **AES-256-GCM:** Implementasi standar industri menggunakan **Web Crypto API (`SubtleCrypto`)** native browser dengan derivasi kunci **PBKDF2**, salt acak, dan IV unik per pesan.
    - **Base64:** Encoding/decoding standar RFC 4648.
    - **Caesar Cipher:** Shift cipher klasik dengan validasi rentang nilai (0–25).
-   - **ROT13:** Substitusi karakter rotasi 13 statis.
+   - **ROT13:** Substitusi karakter rotasi 13 statis (involusi simetris).
    - **Vigenère Cipher:** Substitusi polialfabis menggunakan kata kunci teks.
-   - **XOR Cipher:** Operasi bitwise XOR berbasis byte.
-5. **🎨 Desain Neobrutalism & Dark/Light Mode Sync:**
+   - **XOR Cipher:** Operasi bitwise XOR berbasis byte (dasar One-Time Pad).
+8. **🎨 Desain Neobrutalism & Dark/Light Mode Sync:**
    - Antarmuka visual berani dengan border tebal kontras tinggi, *hard offset shadows* (`4px 4px 0 0 #000`), dan mikro-animasi taktil pada tombol.
    - Sinkronisasi tema gelap/terang tanpa *Flash of Unstyled Content (FOUC)* menggunakan skrip inline pramuat dan penyimpanan status di `localStorage`.
 
@@ -76,10 +86,10 @@ Aplikasi ini menerapkan adaptasi **Clean Architecture** dalam 4 lapisan independ
 ```
 ┌────────────────────────────────────────────────────────┐
 │ UI Layer (Presentation)                                │ ← React 19 Islands & Astro Pages
-│ - Antarmuka interaktif, Drag & Drop, Recipe Manager    │
+│ - Antarmuka interaktif, DnD, Recipe Manager, History   │
 ├────────────────────────────────────────────────────────┤
-│ Application Layer (Use Cases)                          │ ← Orkestrasi: encryptPipeline(),
-│ - Mengatur urutan eksekusi dan automasi reverse        │   decryptPipeline()
+│ Application Layer (Use Cases & Services)               │ ← Orkestrasi: encryptPipeline(),
+│ - Mengatur urutan eksekusi, recipe, history, detector  │   recipe/history/detector service
 ├────────────────────────────────────────────────────────┤
 │ Domain Layer (Core Logic)                              │ ← Kontrak murni: interface Cipher,
 │ - Aturan bisnis murni tanpa ketergantungan eksternal   │   PipelineStep, CipherResult
@@ -167,8 +177,8 @@ Pastikan sistem Anda memenuhi spesifikasi minimum berikut sebelum memulai pengem
    # Mode background (sesuai aturan AGENTS.md)
    astro dev --background
    ```
-3. **Menjalankan Pengujian (Testing):**
-   Pastikan setiap algoritma cipher yang diubah atau ditambahkan lulus pengujian round-trip (`decrypt(encrypt(text)) === text`):
+3. **Menjalankan Pengujian (Testing - 36 Tests Passed):**
+   Pastikan setiap algoritma cipher atau fitur baru yang diubah lulus pengujian regresi Vitest:
    ```bash
    npm test
    ```
@@ -184,19 +194,24 @@ baji-crypto-lab/
 ├── src/
 │   ├── domain/                      # Lapisan Inti (Tanpa dependensi eksternal)
 │   │   ├── entities/
-│   │   │   └── CipherResult.ts      # Entitas hasil pemrosesan transformasi
+│   │   │   └── CipherResult.ts      # Entitas hasil pemrosesan transformasi & riwayat
 │   │   ├── interfaces/
 │   │   │   ├── Cipher.ts            # Kontrak utama interface Cipher { encrypt, decrypt, meta }
-│   │   │   └── PipelineStep.ts      # Kontrak langkah rantaian pipeline
+│   │   │   ├── PipelineStep.ts      # Kontrak langkah rantaian pipeline
+│   │   │   └── PipelineRecipe.ts    # Kontrak resep ekspor/impor JSON pipeline
 │   │   └── errors/
 │   │       └── CipherError.ts       # Kelas penanganan error kriptografi custom
 │   │
-│   ├── application/                 # Lapisan Kasus Penggunaan (Use Cases)
-│   │   └── use-cases/
-│   │       ├── encryptSingle.ts     # Eksekusi enkripsi mode tunggal
-│   │       ├── decryptSingle.ts     # Eksekusi dekripsi mode tunggal
-│   │       ├── encryptPipeline.ts   # Eksekusi rantaian enkripsi berurutan
-│   │       └── decryptPipeline.ts   # Eksekusi dekripsi dengan auto-reverse order
+│   ├── application/                 # Lapisan Kasus Penggunaan (Use Cases & Services)
+│   │   ├── use-cases/
+│   │   │   ├── encryptSingle.ts     # Eksekusi enkripsi mode tunggal
+│   │   │   ├── decryptSingle.ts     # Eksekusi dekripsi mode tunggal
+│   │   │   ├── encryptPipeline.ts   # Eksekusi rantaian enkripsi berurutan
+│   │   │   └── decryptPipeline.ts   # Eksekusi dekripsi dengan auto-reverse order
+│   │   └── services/
+│   │       ├── recipe.service.ts    # Layanan ekspor/impor JSON dan URL-safe Base64 param
+│   │       ├── history.service.ts   # Layanan penyimpanan 50 riwayat localStorage tanpa key
+│   │       └── detector.service.ts  # Layanan deteksi otomatis encoding (Base64, Hex, Biner)
 │   │
 │   ├── infrastructure/              # Lapisan Implementasi Konkret
 │   │   └── ciphers/
@@ -209,27 +224,38 @@ baji-crypto-lab/
 │   │       └── cipher.registry.ts   # Single Source of Truth daftar cipher (Registry Pattern)
 │   │
 │   ├── components/                  # Lapisan Presentasi (React 19 Islands)
-│   │   ├── encryptor/               # Komponen panel utama enkriptor
+│   │   ├── encryptor/
+│   │   │   └── EncryptorPanel.tsx   # Panel utama enkriptor dengan deteksi encoding & riwayat
 │   │   ├── pipeline/
 │   │   │   ├── PipelineBuilder.tsx  # Drag & drop builder (@dnd-kit)
 │   │   │   ├── RecipeManager.tsx    # Ekspor/impor resep & URL sharing
 │   │   │   └── StepCard.tsx         # Kartu representasi langkah pipeline
+│   │   ├── history/
+│   │   │   └── HistoryPanel.tsx     # Panel riwayat transformasi 50 entri Neobrutalism
 │   │   ├── shared/                  # Komponen UI Neobrutalism reusable (NeoButton, NeoCard)
-│   │   └── theme/                   # Komponen & hook pengatur tema Dark/Light
+│   │   └── theme/                   # Komponen & hook pengatur tema Dark/Light anti-FOUC
 │   │
 │   ├── layouts/
 │   │   └── BaseLayout.astro         # Layout utama dengan script anti-FOUC
 │   │
 │   ├── pages/
-│   │   └── index.astro              # Halaman utama aplikasi (Astro Island Host)
+│   │   ├── index.astro              # Halaman utama aplikasi (Astro Island Host)
+│   │   └── about.astro              # Halaman ensiklopedia edukatif sejarah & keamanan cipher
 │   │
 │   ├── styles/
 │   │   └── global.css               # Token desain Neobrutalism & konfigurasi Tailwind v4
 │   │
 │   └── lib/
-│       └── constants.ts             # Konstanta sistem, batas riwayat, dan metadata
+│       └── constants.ts             # Konstanta sistem, batas riwayat (50), dan metadata
 │
-├── tests/                           # Pengujian Unit dan Integrasi Vitest
+├── tests/                           # Pengujian Unit dan Integrasi Vitest (100% Passed 36 Tests)
+│   └── unit/
+│       ├── ciphers.test.ts          # 17 pengujian algoritma individual
+│       ├── pipeline.test.ts         # 4 pengujian kombinasi rantaian & reverse order
+│       ├── recipe.test.ts           # 4 pengujian ekspor/impor JSON & URL-safe Base64
+│       ├── history.test.ts          # 5 pengujian localStorage & batas 50 riwayat
+│       └── detector.test.ts         # 6 pengujian akurasi auto-detection encoding
+│
 ├── Dockerfile                       # Multi-stage Docker build untuk produksi
 ├── docker-compose.yml               # Orkestrasi kontainer web server Nginx
 ├── nginx.conf                       # Konfigurasi reverse proxy dan gzip compression
@@ -240,11 +266,12 @@ baji-crypto-lab/
 | No | Folder / File | Detail Peran dalam Arsitektur |
 | :---: | :--- | :--- |
 | **1** | `src/domain/` | Menampung aturan bisnis murni dan kontrak (*interface*). Tidak boleh mengimpor library UI atau infrastruktur apa pun. |
-| **2** | `src/application/` | Menampung logika orkestrasi (*use cases*), seperti alur pembalikan otomatis saat dekripsi pipeline kombinasi. |
+| **2** | `src/application/` | Menampung logika orkestrasi (*use cases*) dan layanan ekosistem (*recipe*, *history*, *detector*). |
 | **3** | `src/infrastructure/` | Tempat implementasi nyata dari kontrak domain (misal pemanggilan Web Crypto API untuk AES) dan pendaftaran algoritma di *Registry*. |
 | **4** | `src/components/` | Komponen interaktif **React 19** yang berjalan sebagai *Astro Islands* (`client:load` / `client:visible`). |
-| **5** | `src/styles/global.css` | Pusat konfigurasi desain **Tailwind CSS v4** menggunakan `@import "tailwindcss"` dan deklarasi token `@theme` Neobrutalism. |
-| **6** | `Dockerfile` & `nginx.conf` | Blueprint deployment produksi menggunakan Nginx alpine berkinerja tinggi. |
+| **5** | `src/pages/` | Halaman statis Astro berkinerja tinggi, mencakup laboratorium utama (`/`) dan ensiklopedia edukasi cipher (`/about`). |
+| **6** | `src/styles/global.css` | Pusat konfigurasi desain **Tailwind CSS v4** menggunakan `@import "tailwindcss"` dan deklarasi token `@theme` Neobrutalism. |
+| **7** | `Dockerfile` & `nginx.conf` | Blueprint deployment produksi menggunakan Nginx alpine berkinerja tinggi. |
 
 ---
 
@@ -254,7 +281,7 @@ Untuk menghasilkan build produksi statis yang siap di-hosting:
 ```bash
 npm run build
 ```
-Proses ini akan mengompilasi seluruh aset statis, mengoptimalkan bundle JavaScript React Islands menggunakan **Rolldown/Vite 8**, dan menyimpannya di direktori `./dist/`. Anda dapat memvalidasi hasil build secara lokal dengan perintah:
+Proses ini akan mengompilasi seluruh aset statis (`/` dan `/about`), mengoptimalkan bundle JavaScript React Islands menggunakan **Rolldown/Vite 8**, dan menyimpannya di direktori `./dist/`. Anda dapat memvalidasi hasil build secara lokal dengan perintah:
 ```bash
 npm run preview
 ```
@@ -328,7 +355,7 @@ Untuk menjaga kualitas dan arsitektur kode, seluruh kontributor wajib mematuhi p
 - **Kriptografi Aman vs Klasikal:** Algoritma edukasional wajib diberi penanda jelas di metadata (`meta.description`). Untuk kriptografi modern (seperti AES), **wajib** menggunakan **Web Crypto API (`window.crypto.subtle`)** — dilarang keras menggunakan implementasi custom yang rentan kerentanan keamanan.
 - **TypeScript Strict Mode:** Seluruh kode harus lulus kompilasi dengan konfigurasi `strict: true` tanpa penggunaan tipe `any` yang tidak disengaja.
 - **Konsistensi UI Neobrutalism:** Gunakan token warna dan shadow yang telah didefinisikan di `@theme` (`--shadow-neo`, `--color-neo-border`, dll.). Pastikan kontras warna tetap nyaman dibaca pada mode gelap maupun terang.
-- **Unit Testing:** Setiap penambahan cipher atau fitur use-case wajib disertai dengan pengujian otomatis menggunakan Vitest.
+- **Unit Testing:** Setiap penambahan cipher atau fitur use-case wajib disertai dengan pengujian otomatis menggunakan Vitest (pertahankan tingkat kelulusan 100%).
 
 ---
 
@@ -344,7 +371,7 @@ Untuk menjaga kualitas dan arsitektur kode, seluruh kontributor wajib mematuhi p
 **A:** Secara matematis dan logis, jika sebuah pesan dienkripsi dengan urutan tahap $A \rightarrow B \rightarrow C$, maka untuk mengembalikan pesan ke teks asli, proses dekripsi harus dilakukan dari tahap terakhir menuju tahap pertama, yaitu $C \rightarrow B \rightarrow A$. *Application Layer* kami menangani pembalikan ini secara otomatis saat Anda menekan tombol "Decrypt".
 
 **Q: Apakah data teks atau kata sandi rahasia saya dikirim ke server saat proses enkripsi berlangsung?**  
-**A:** **Tidak sama sekali.** Seluruh komputasi — termasuk derivasi kunci PBKDF2 dan operasi AES-GCM — dieksekusi sepenuhnya secara lokal di dalam memori peramban (*client-side browser*) Anda.
+**A:** **Tidak sama sekali.** Seluruh komputasi — termasuk derivasi kunci PBKDF2, operasi AES-GCM, penyimpanan resep, dan riwayat localStorage — dieksekusi sepenuhnya secara lokal di dalam memori peramban (*client-side browser*) Anda.
 
 ---
 
@@ -363,23 +390,46 @@ Referensi dan dokumentasi resmi teknologi yang digunakan dalam proyek ini:
 ## :camera: Gallery
 
 <div align="center">
-  <p><em>antarmuka bergaya Neobrutalism dengan kontras tinggi, border tegas, dan shadow offset yang khas.</em></p>
-  
-  ```
-  +-----------------------------------------------------------------------+
-  |  [⚙️ BAJI CRYPTO LAB]          [🌙 Dark / ☀️ Light]   [📚 Recipe Manager] |
-  +-----------------------------------------------------------------------+
-  |  +-------------------------------+   +-----------------------------+  |
-  |  | ⛓️ PIPELINE BUILDER (DnD)    |   | 📥 INPUT TEXT / CIPHERTEXT  |  |
-  |  |                               |   |                             |  |
-  |  |  1. [ 🔑 Base64 Encode     ]  |   | "Hello Tuan Baji, Welcome!" |  |
-  |  |  2. [ 🔄 Caesar Shift (+5) ]  |   +-----------------------------+  |
-  |  |  3. [ 🛡️ AES-256-GCM (PBKDF2)]|   | ⚡ [ ENCRYPT ]  | [ DECRYPT ] |  |
-  |  |                               |   +-----------------------------+  |
-  |  |  [ + Add Algorithm Step ]     |   | 📤 OUTPUT RESULT (Copyable) |  |
-  |  +-------------------------------+   +-----------------------------+  |
-  +-----------------------------------------------------------------------+
-  ```
+  <p><em>Antarmuka bergaya Neobrutalism dengan kontras tinggi, border tegas, dan shadow offset yang khas.</em></p>
+</div>
+
+### 🏠 Halaman Utama & Ekosistem Laboratorium (`/`)
+
+#### 🌓 Mode Terang & Mode Gelap (Light & Dark Mode)
+<div align="center">
+  <img src="public/1-HomePage-Light-Mode.png" alt="Baji Crypto Lab - Light Mode" width="90%" style="border-radius: 8px; margin-bottom: 12px;" />
+  <p><strong>Tampilan Utama - Mode Terang (Light Mode)</strong></p>
+  <br/>
+  <img src="public/1-HomePage-Dark-Mode.png" alt="Baji Crypto Lab - Dark Mode" width="90%" style="border-radius: 8px; margin-bottom: 12px;" />
+  <p><strong>Tampilan Utama - Mode Gelap (Dark Mode)</strong></p>
+</div>
+
+#### ⚡ Eksplorasi Fitur, Pipeline Builder & Riwayat Transformasi
+<div align="center">
+  <img src="public/1-1-HomePage.png" alt="Baji Crypto Lab - Eksplorasi Fitur 1" width="90%" style="border-radius: 8px; margin-bottom: 12px;" />
+  <p><strong>Eksplorasi Fitur & Interaksi Panel - Bagian 1</strong></p>
+  <br/>
+  <img src="public/1-2-HomePage.png" alt="Baji Crypto Lab - Eksplorasi Fitur 2" width="90%" style="border-radius: 8px; margin-bottom: 12px;" />
+  <p><strong>Eksplorasi Fitur & Interaksi Panel - Bagian 2</strong></p>
+  <br/>
+  <img src="public/1-3-HomePage.png" alt="Baji Crypto Lab - Eksplorasi Fitur 3" width="90%" style="border-radius: 8px; margin-bottom: 12px;" />
+  <p><strong>Eksplorasi Fitur & Interaksi Panel - Bagian 3</strong></p>
+</div>
+
+---
+
+### 📖 Ensiklopedia & Edukasi Kriptografi (`/about`)
+
+#### 🔍 Pusat Pengetahuan & Analisis Algoritma
+<div align="center">
+  <img src="public/2-EnsiklopediaPage.png" alt="Baji Crypto Lab - Ensiklopedia Utama" width="90%" style="border-radius: 8px; margin-bottom: 12px;" />
+  <p><strong>Halaman Utama Ensiklopedia Kriptografi</strong></p>
+  <br/>
+  <img src="public/2-1-EnsiklopediaPage.png" alt="Baji Crypto Lab - Detail Ensiklopedia 1" width="90%" style="border-radius: 8px; margin-bottom: 12px;" />
+  <p><strong>Detail Penjelasan Sejarah & Rumus Matematis - Bagian 1</strong></p>
+  <br/>
+  <img src="public/2-2-EnsiklopediaPage.png" alt="Baji Crypto Lab - Detail Ensiklopedia 2" width="90%" style="border-radius: 8px; margin-bottom: 12px;" />
+  <p><strong>Detail Penjelasan Sejarah & Rumus Matematis - Bagian 2</strong></p>
 </div>
 
 ---

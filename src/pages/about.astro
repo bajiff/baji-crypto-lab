@@ -1,0 +1,416 @@
+---
+import BaseLayout from '../layouts/BaseLayout.astro';
+import { ThemeToggle } from '../components/theme/ThemeToggle';
+import { APP_NAME } from '../lib/constants';
+---
+
+<BaseLayout title={`Edukasi & Sejarah — ${APP_NAME}`} description="Penjelasan edukatif sejarah, asal-usul, dan cara kerja matematis algoritma kriptografi dan cipher klasik di Baji Crypto Lab.">
+  {/* Header */}
+  <header class="w-full border-b-4 border-black dark:border-white bg-white dark:bg-[#1a1a1a] px-4 py-4 sticky top-0 z-50 shadow-[0px_4px_0px_0px_#000000] dark:shadow-[0px_4px_0px_0px_#ffffff]">
+    <div class="max-w-6xl mx-auto flex items-center justify-between gap-4">
+      <div class="flex items-center gap-3">
+        <div class="w-11 h-11 rounded-xl border-3 border-black dark:border-white bg-[#ffde59] dark:bg-[#facc15] flex items-center justify-center shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#ffffff] font-black text-xl rotate-[-3deg] hover:rotate-0 transition-transform">
+          📖
+        </div>
+        <div>
+          <h1 class="font-black text-2xl tracking-tight uppercase text-black dark:text-white flex items-center gap-2">
+            {APP_NAME} <span class="text-xs px-2 py-0.5 rounded border-2 border-black bg-[#c084fc] text-black uppercase font-black">Edukasi</span>
+          </h1>
+          <p class="text-xs font-bold text-gray-600 dark:text-gray-400 hidden sm:block">
+            Ensiklopedia & Sejarah Algoritma Kriptografi
+          </p>
+        </div>
+      </div>
+
+      <div class="flex items-center gap-3">
+        <a
+          href="/"
+          class="px-3.5 py-2 rounded-xl border-3 border-black dark:border-white bg-[#ffde59] dark:bg-[#facc15] text-black font-black text-xs shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#ffffff] hover:translate-x-[-1px] hover:translate-y-[-1px] transition-all flex items-center gap-1.5"
+          title="Kembali ke Lab utama (Encryptor & Pipeline)"
+        >
+          <span>🔐 Kembali ke Lab</span>
+        </a>
+        <ThemeToggle client:load />
+      </div>
+    </div>
+  </header>
+
+  {/* Main Content */}
+  <main class="flex-1 w-full max-w-6xl mx-auto px-4 py-12 flex flex-col gap-10 items-center">
+    {/* Hero Banner */}
+    <div class="w-full max-w-4xl text-center flex flex-col items-center gap-4 py-8 px-6 rounded-3xl border-4 border-black dark:border-white bg-[#c084fc] dark:bg-[#7e22ce] text-black dark:text-white shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#ffffff] relative overflow-hidden">
+      <div class="absolute -right-10 -bottom-10 text-9xl opacity-10 select-none pointer-events-none font-black">
+        ABOUT
+      </div>
+      <h2 class="font-black text-3xl sm:text-5xl uppercase tracking-tight max-w-2xl leading-tight">
+        Ensiklopedia & Sejarah <span class="underline decoration-[#ffde59] decoration-4 underline-offset-4">Cipher Teks</span>
+      </h2>
+      <p class="font-bold text-sm sm:text-base max-w-2xl text-black/90 dark:text-white/90">
+        Eksplorasi mendalam mengenai asal-usul sejarah, mekanisme matematis, dan tingkat keamanan dari 6 algoritma transformasi yang tersedia di dalam Baji Crypto Lab.
+      </p>
+    </div>
+
+    {/* Educational Cards Grid */}
+    <div class="w-full max-w-4xl flex flex-col gap-8">
+      {/* 1. AES-256-GCM */}
+      <article class="p-6 sm:p-8 rounded-3xl border-4 border-black dark:border-white bg-white dark:bg-[#1e1e1e] shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#ffffff] flex flex-col gap-6 relative overflow-hidden">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b-3 border-black dark:border-white pb-4">
+          <div class="flex items-center gap-3">
+            <span class="w-12 h-12 rounded-2xl border-3 border-black dark:border-white bg-[#ff5757] text-white flex items-center justify-center font-black text-2xl shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#ffffff]">
+              🛡️
+            </span>
+            <div>
+              <h3 class="font-black text-2xl uppercase tracking-wide text-black dark:text-white">
+                AES-256-GCM
+              </h3>
+              <p class="text-xs font-bold text-gray-600 dark:text-gray-400">
+                Advanced Encryption Standard — Galois/Counter Mode
+              </p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full border-2 border-black bg-[#ff5757] text-white font-extrabold text-xs shadow-[2px_2px_0px_0px_#000000]">
+            🔒 Kriptografis Modern / Militer
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>📜</span> Sejarah & Asal-Usul
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+              Disetujui oleh NIST (National Institute of Standards and Technology) Amerika Serikat pada tahun 2001 untuk menggantikan standar DES yang mulai rentan. Diciptakan oleh dua kriptografer Belgia, Joan Daemen dan Vincent Rijmen (dikenal sebagai algoritma <em>Rijndael</em>). Kini menjadi standar emas proteksi data global.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>⚙️</span> Mekanisme Kerja
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+              Merupakan <em>symmetric block cipher</em> yang memproses data dalam blok 128-bit melalui 14 putaran matematis menggunakan kunci 256-bit. Mode <strong>GCM</strong> menambahkan lapisan <em>Authenticated Encryption</em> (AEAD) yang menghasilkan tag otentikasi untuk menjamin integritas data sehingga tidak dapat dimodifikasi di tengah jalan.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>🛡️</span> Tingkat Keamanan
+            </h4>
+            <div class="p-3 rounded-xl border-2 border-black dark:border-white bg-[#4ade80]/20 text-black dark:text-white font-bold text-xs flex flex-col gap-1">
+              <span class="font-black text-green-700 dark:text-green-400 uppercase">Sangat Tinggi (Military-Grade)</span>
+              <p class="font-medium">
+                Mustahil dipecahkan oleh superkomputer tercepat saat ini dengan metode <em>brute-force</em>. Di Baji Crypto Lab, kunci diturunkan secara aman menggunakan <strong>PBKDF2</strong> dan salt acak via Web Crypto API.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      {/* 2. Base64 */}
+      <article class="p-6 sm:p-8 rounded-3xl border-4 border-black dark:border-white bg-white dark:bg-[#1e1e1e] shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#ffffff] flex flex-col gap-6 relative overflow-hidden">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b-3 border-black dark:border-white pb-4">
+          <div class="flex items-center gap-3">
+            <span class="w-12 h-12 rounded-2xl border-3 border-black dark:border-white bg-[#ffde59] text-black flex items-center justify-center font-black text-2xl shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#ffffff]">
+              📦
+            </span>
+            <div>
+              <h3 class="font-black text-2xl uppercase tracking-wide text-black dark:text-white">
+                Base64 Encoding
+              </h3>
+              <p class="text-xs font-bold text-gray-600 dark:text-gray-400">
+                RFC 4648 Binary-to-Text Encoding Scheme
+              </p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full border-2 border-black bg-[#ffde59] text-black font-extrabold text-xs shadow-[2px_2px_0px_0px_#000000]">
+            🔤 Skema Encoding (Bukan Cipher)
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>📜</span> Sejarah & Asal-Usul
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+              Dirancang pada era awal internet (protokol email/MIME) untuk mengatasi masalah transmisi data biner (seperti gambar atau lampiran file) melintasi sistem jaringan lawas yang hanya mendukung pengiriman teks ASCII 7-bit murni.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>⚙️</span> Mekanisme Kerja
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+              Mengambil aliran bit data biner dan memecahnya ke dalam kelompok berukuran 6-bit (bernilai 0–63). Setiap kelompok dipetakan ke dalam 64 karakter ASCII yang aman dicetak: abjad <code>A-Z</code>, <code>a-z</code>, angka <code>0-9</code>, serta simbol <code>+</code> dan <code>/</code> (dengan karakter <code>=</code> sebagai padding).
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>🛡️</span> Tingkat Keamanan
+            </h4>
+            <div class="p-3 rounded-xl border-2 border-black dark:border-white bg-[#ffde59]/30 text-black dark:text-white font-bold text-xs flex flex-col gap-1">
+              <span class="font-black text-amber-800 dark:text-amber-400 uppercase">0% Kriptografis (Bukan Enkripsi)</span>
+              <p class="font-medium">
+                Siapa pun yang melihat teks Base64 dapat langsung mendekodenya ke teks asli tanpa memerlukan kata sandi. Berguna untuk format transmisi data, tetapi <strong>jangan pernah</strong> dipakai untuk menyembunyikan rahasia!
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      {/* 3. Caesar Cipher */}
+      <article class="p-6 sm:p-8 rounded-3xl border-4 border-black dark:border-white bg-white dark:bg-[#1e1e1e] shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#ffffff] flex flex-col gap-6 relative overflow-hidden">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b-3 border-black dark:border-white pb-4">
+          <div class="flex items-center gap-3">
+            <span class="w-12 h-12 rounded-2xl border-3 border-black dark:border-white bg-[#f472b6] text-black flex items-center justify-center font-black text-2xl shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#ffffff]">
+              🏛️
+            </span>
+            <div>
+              <h3 class="font-black text-2xl uppercase tracking-wide text-black dark:text-white">
+                Caesar Shift Cipher
+              </h3>
+              <p class="text-xs font-bold text-gray-600 dark:text-gray-400">
+                Julius Caesar Substitution (~50 SM)
+              </p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full border-2 border-black bg-[#f472b6] text-black font-extrabold text-xs shadow-[2px_2px_0px_0px_#000000]">
+            📜 Cipher Klasik / Edukasi
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>📜</span> Sejarah & Asal-Usul
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+              Digunakan oleh pemimpin militer Romawi, Julius Caesar, sekitar tahun 50 SM untuk melindungi pesan instruksi militer rahasia yang dikirimkan kepada para jenderalnya di medan perang. Ini adalah salah satu teknik sandi tertua yang tercatat dalam sejarah.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>⚙️</span> Mekanisme Kerja
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+              Substitusi monoalfabetik dengan menggeser setiap huruf alfabet sebesar $K$ posisi. Rumus matematisnya:  
+              <code class="block bg-gray-100 dark:bg-black/50 p-1 rounded mt-1 font-mono text-xs">E(x) = (x + K) mod 26</code>  
+              Jika kunci geser $K = 3$, huruf <code>A</code> berubah menjadi <code>D</code>, <code>B</code> menjadi <code>E</code>, dan seterusnya.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>🛡️</span> Tingkat Keamanan
+            </h4>
+            <div class="p-3 rounded-xl border-2 border-black dark:border-white bg-[#f472b6]/20 text-black dark:text-white font-bold text-xs flex flex-col gap-1">
+              <span class="font-black text-pink-700 dark:text-pink-400 uppercase">Sangat Lemah (Hanya Edukasi)</span>
+              <p class="font-medium">
+                Karena abjad Latin hanya berisikan 26 huruf, penyerang dapat mencobanya dengan mudah (hanya 25 kemungkinan geseran) dalam hitungan detik, atau menggunakan teknik analisis frekuensi huruf.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      {/* 4. ROT13 */}
+      <article class="p-6 sm:p-8 rounded-3xl border-4 border-black dark:border-white bg-white dark:bg-[#1e1e1e] shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#ffffff] flex flex-col gap-6 relative overflow-hidden">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b-3 border-black dark:border-white pb-4">
+          <div class="flex items-center gap-3">
+            <span class="w-12 h-12 rounded-2xl border-3 border-black dark:border-white bg-[#4ade80] text-black flex items-center justify-center font-black text-2xl shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#ffffff]">
+              🔄
+            </span>
+            <div>
+              <h3 class="font-black text-2xl uppercase tracking-wide text-black dark:text-white">
+                ROT13 (Rotate by 13)
+              </h3>
+              <p class="text-xs font-bold text-gray-600 dark:text-gray-400">
+                Symmetric Involution Shift Cipher
+              </p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full border-2 border-black bg-[#4ade80] text-black font-extrabold text-xs shadow-[2px_2px_0px_0px_#000000]">
+            📜 Cipher Klasik / Usenet Era
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>📜</span> Sejarah & Asal-Usul
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+              Sangat populer pada dekade 1980-an di forum diskusi internet Usenet (seperti grup diskusi humor dan film). Digunakan sebagai standar komunitas untuk menyembunyikan lelucon, teka-teki, atau <em>spoiler</em> film agar tidak terbaca tanpa sengaja oleh pengguna.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>⚙️</span> Mekanisme Kerja
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+              Kasus khusus dari Caesar cipher dengan kunci geseran statis 13 posisi. Karena 13 adalah tepat setengah dari 26 huruf alfabet, algoritma enkripsi dan dekripsinya adalah fungsi yang <strong>sama persis (involusi)</strong>:  
+              <code class="block bg-gray-100 dark:bg-black/50 p-1 rounded mt-1 font-mono text-xs">ROT13(ROT13(x)) = x</code>  
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>🛡️</span> Tingkat Keamanan
+            </h4>
+            <div class="p-3 rounded-xl border-2 border-black dark:border-white bg-[#4ade80]/20 text-black dark:text-white font-bold text-xs flex flex-col gap-1">
+              <span class="font-black text-green-800 dark:text-green-400 uppercase">0% Kriptografis (Tanpa Kunci)</span>
+              <p class="font-medium">
+                Tidak memiliki kunci rahasia sama sekali. Murni berfungsi sebagai pengabur pandangan sekilas (<em>security through obscurity</em>) untuk hiburan dan komunitas daring.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      {/* 5. Vigenere Cipher */}
+      <article class="p-6 sm:p-8 rounded-3xl border-4 border-black dark:border-white bg-white dark:bg-[#1e1e1e] shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#ffffff] flex flex-col gap-6 relative overflow-hidden">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b-3 border-black dark:border-white pb-4">
+          <div class="flex items-center gap-3">
+            <span class="w-12 h-12 rounded-2xl border-3 border-black dark:border-white bg-[#c084fc] text-black flex items-center justify-center font-black text-2xl shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#ffffff]">
+              🗝️
+            </span>
+            <div>
+              <h3 class="font-black text-2xl uppercase tracking-wide text-black dark:text-white">
+                Vigenère Cipher
+              </h3>
+              <p class="text-xs font-bold text-gray-600 dark:text-gray-400">
+                Polyalphabetic Substitution (1553 / 1586)
+              </p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full border-2 border-black bg-[#c084fc] text-black font-extrabold text-xs shadow-[2px_2px_0px_0px_#000000]">
+            📜 Cipher Klasik / Polialfabis
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>📜</span> Sejarah & Asal-Usul
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+              Diciptakan oleh Giovan Battista Bellaso pada tahun 1553, dan kemudian salah disematkan kepada Blaise de Vigenère. Selama hampir 300 tahun, sandi ini mendapat julukan prestisius <em>"Le chiffre indéchiffrable"</em> (Sandi tak terpecahkan) sebelum dipatahkan oleh Friedrich Kasiski pada abad ke-19.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>⚙️</span> Mekanisme Kerja
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+              Mengatasi kelemahan analisis frekuensi pada Caesar dengan menggunakan <strong>kata kunci teks (keyword)</strong> berulang. Setiap huruf pesan digeser dengan nilai pergeseran yang berbeda-beda tergantung huruf kunci yang bersesuaian pada tabel <em>Tabula Recta</em>:  
+              <code class="block bg-gray-100 dark:bg-black/50 p-1 rounded mt-1 font-mono text-xs">C[i] = (P[i] + K[i mod len]) mod 26</code>
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>🛡️</span> Tingkat Keamanan
+            </h4>
+            <div class="p-3 rounded-xl border-2 border-black dark:border-white bg-[#c084fc]/20 text-black dark:text-white font-bold text-xs flex flex-col gap-1">
+              <span class="font-black text-purple-800 dark:text-purple-400 uppercase">Sedang (Rentan Analisis Kasiski)</span>
+              <p class="font-medium">
+                Satu huruf yang sama bisa berubah menjadi huruf sandi berbeda. Namun dengan komputer modern, analisis jarak perulangan Kasiski dapat memecahkannya dalam hitungan milidetik jika kunci lebih pendek dari pesan.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+
+      {/* 6. XOR Cipher */}
+      <article class="p-6 sm:p-8 rounded-3xl border-4 border-black dark:border-white bg-white dark:bg-[#1e1e1e] shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#ffffff] flex flex-col gap-6 relative overflow-hidden">
+        <div class="flex flex-wrap items-center justify-between gap-3 border-b-3 border-black dark:border-white pb-4">
+          <div class="flex items-center gap-3">
+            <span class="w-12 h-12 rounded-2xl border-3 border-black dark:border-white bg-[#38bdf8] text-black flex items-center justify-center font-black text-2xl shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#ffffff]">
+              ⚡
+            </span>
+            <div>
+              <h3 class="font-black text-2xl uppercase tracking-wide text-black dark:text-white">
+                XOR Bitwise Cipher
+              </h3>
+              <p class="text-xs font-bold text-gray-600 dark:text-gray-400">
+                Exclusive-OR / Dasar One-Time Pad (OTP)
+              </p>
+            </div>
+          </div>
+          <span class="px-3 py-1 rounded-full border-2 border-black bg-[#38bdf8] text-black font-extrabold text-xs shadow-[2px_2px_0px_0px_#000000]">
+            ⚡ Kriptografi Biner / Logika Bitwise
+          </span>
+        </div>
+
+        <div class="grid grid-cols-1 md:grid-cols-3 gap-6 text-sm">
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>📜</span> Sejarah & Asal-Usul
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+              Operasi logika XOR menjadi tulang punggung kriptografi digital modern. Pada tahun 1917, Gilbert Vernam menggabungkannya dengan pita acak, yang kemudian dibuktikan oleh Claude Shannon pada 1949 sebagai <strong>One-Time Pad (OTP)</strong> — satu-satunya sistem yang terbukti matematis 100% tak terpecahkan.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>⚙️</span> Mekanisme Kerja
+            </h4>
+            <p class="text-gray-700 dark:text-gray-300 font-medium leading-relaxed">
+              Melakukan operasi logika eklusif-OR (XOR) pada setiap byte pesan dengan byte kunci. Sifat keajaiban XOR adalah <strong>simetris absolut</strong>:  
+              <code class="block bg-gray-100 dark:bg-black/50 p-1 rounded mt-1 font-mono text-xs">P ⊕ K = C dan C ⊕ K = P</code>  
+              Di Baji Crypto Lab, hasil biner XOR dikonversi ke Base64 agar aman ditampilkan di peramban.
+            </p>
+          </div>
+
+          <div class="flex flex-col gap-2">
+            <h4 class="font-black text-base uppercase text-black dark:text-white flex items-center gap-1.5">
+              <span>🛡️</span> Tingkat Keamanan
+            </h4>
+            <div class="p-3 rounded-xl border-2 border-black dark:border-white bg-[#38bdf8]/20 text-black dark:text-white font-bold text-xs flex flex-col gap-1">
+              <span class="font-black text-sky-800 dark:text-sky-300 uppercase">Tergantung Kunci (Bisa 100% Sempurna)</span>
+              <p class="font-medium">
+                Jika kunci pendek dan diulang-ulang (<em>repeating-key</em>), sangat mudah dipatahkan. Namun jika kunci benar-benar acak, sepanjang pesan, dan hanya dipakai sekali (mode OTP), keamanannya adalah <strong>100% Sempurna</strong>.
+              </p>
+            </div>
+          </div>
+        </div>
+      </article>
+    </div>
+
+    {/* Navigation Bottom Call-to-Action */}
+    <div class="w-full max-w-4xl p-8 rounded-3xl border-4 border-black dark:border-white bg-[#ffde59] dark:bg-[#facc15] text-black shadow-[8px_8px_0px_0px_#000000] dark:shadow-[8px_8px_0px_0px_#ffffff] flex flex-col sm:flex-row items-center justify-between gap-6 text-center sm:text-left">
+      <div>
+        <h3 class="font-black text-2xl uppercase tracking-tight">
+          Siap Mencoba Kombinasi Cipher Ini?
+        </h3>
+        <p class="font-bold text-sm text-black/80 mt-1">
+          Kembali ke laboratorium utama untuk merangkai pipeline enkripsi dan dekripsi interaktif Anda!
+        </p>
+      </div>
+      <a
+        href="/"
+        class="px-6 py-4 rounded-2xl border-4 border-black bg-white hover:bg-black hover:text-white text-black font-black text-base uppercase tracking-wider shadow-[4px_4px_0px_0px_#000000] hover:translate-x-[-2px] hover:translate-y-[-2px] hover:shadow-[6px_6px_0px_0px_#000000] active:translate-x-[2px] active:translate-y-[2px] active:shadow-[1px_1px_0px_0px_#000000] transition-all shrink-0 flex items-center gap-2"
+      >
+        <span>⚡ Buka Crypto Lab</span>
+      </a>
+    </div>
+  </main>
+
+  {/* Footer */}
+  <footer class="w-full border-t-4 border-black dark:border-white bg-[#fbebcd] dark:bg-[#1a1a1a] py-6 px-4 mt-auto">
+    <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-bold text-xs">
+      <p class="text-center sm:text-left">
+        © 2026 <span class="font-black uppercase">{APP_NAME}</span>. Make with Love by <span class="px-2 py-0.5 rounded border border-black bg-[#ffde59] text-black font-extrabold">Mr. Baji</span>
+      </p>
+      <p class="text-gray-600 dark:text-gray-400">
+        Arsitektur: <span class="font-extrabold text-black dark:text-white">Baji Arsitektur</span>
+      </p>
+    </div>
+  </footer>
+</BaseLayout>

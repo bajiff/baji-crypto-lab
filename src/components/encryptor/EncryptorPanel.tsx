@@ -1,4 +1,4 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { getAllCiphers, type CipherId, cipherRegistry } from '../../infrastructure/ciphers/cipher.registry';
 import { NeoCard } from '../shared/NeoCard';
 import { NeoButton } from '../shared/NeoButton';
@@ -9,6 +9,11 @@ import { encryptPipeline } from '../../application/use-cases/encryptPipeline';
 import { decryptPipeline } from '../../application/use-cases/decryptPipeline';
 import type { PipelineStep } from '../../domain/interfaces/PipelineStep';
 import { Lock, Unlock, ShieldAlert, Sparkles, Layers } from 'lucide-react';
+import { decodeRecipeFromURLParam } from '../../application/services/recipe.service';
+import { getHistory, addHistory, deleteHistoryItem, clearHistory } from '../../application/services/history.service';
+import { HistoryPanel } from '../history/HistoryPanel';
+import type { CipherResult } from '../../domain/entities/CipherResult';
+import { detectEncoding } from '../../application/services/detector.service';
 
 export const EncryptorPanel: React.FC = () => {
   const [mode, setMode] = useState<'single' | 'pipeline'>('single');
@@ -19,6 +24,7 @@ export const EncryptorPanel: React.FC = () => {
   const [error, setError] = useState<string | null>(null);
   const [isProcessing, setIsProcessing] = useState(false);
   const [lastAction, setLastAction] = useState<'encrypt' | 'decrypt' | null>(null);
+  const [history, setHistory] = useState<CipherResult[]>([]);
 
   const [pipelineSteps, setPipelineSteps] = useState<PipelineStepItem[]>([
     { id: 'step-1', cipherId: 'base64', keyVal: '' },
@@ -26,8 +32,30 @@ export const EncryptorPanel: React.FC = () => {
     { id: 'step-3', cipherId: 'rot13', keyVal: '' },
   ]);
 
+  useEffect(() => {
+    if (typeof window === 'undefined') return;
+    setHistory(getHistory());
+    const params = new URLSearchParams(window.location.search);
+    const recipeParam = params.get('recipe');
+    if (recipeParam) {
+      try {
+        const recipe = decodeRecipeFromURLParam(recipeParam);
+        const loaded: PipelineStepItem[] = recipe.steps.map((s, idx) => ({
+          id: `url-${idx}-${Date.now()}`,
+          cipherId: s.cipherId,
+          keyVal: s.keyVal,
+        }));
+        setPipelineSteps(loaded);
+        setMode('pipeline');
+      } catch (err) {
+        console.error('Gagal memuat resep dari URL:', err);
+      }
+    }
+  }, []);
+
   const currentCipher = cipherRegistry[selectedCipherId];
   const ciphers = getAllCiphers();
+  const detection = detectEncoding(input);
 
   const handleProcess = async (action: 'encrypt' | 'decrypt') => {
     if (!input.trim()) {
@@ -60,6 +88,15 @@ export const EncryptorPanel: React.FC = () => {
         }
       }
       setOutput(res);
+      if (res) {
+        const updatedHist = addHistory({
+          input,
+          output: res,
+          algorithm: mode === 'single' ? currentCipher.meta.name : `Pipeline Kombinasi (${pipelineSteps.length} Langkah)`,
+          mode: mode === 'single' ? 'single' : 'combo',
+        });
+        setHistory(updatedHist);
+      }
     } catch (err) {
       setError(err instanceof Error ? err.message : 'Terjadi kesalahan saat memproses teks.');
       setOutput('');
@@ -152,13 +189,36 @@ export const EncryptorPanel: React.FC = () => {
       <div className="grid grid-cols-1 lg:grid-cols-2 gap-6 items-stretch">
         {/* Input Card */}
         <NeoCard variant="default" className="flex flex-col gap-4">
-          <div className="flex items-center justify-between border-b-2 border-black dark:border-white pb-3">
-            <span className="font-black text-lg uppercase tracking-wide flex items-center gap-2">
-              📥 Input Teks {mode === 'pipeline' && `(${pipelineSteps.length} Langkah Pipeline)`}
-            </span>
+          <div className="flex flex-wrap items-center justify-between gap-2 border-b-2 border-black dark:border-white pb-3">
+            <div className="flex items-center gap-2.5 flex-wrap">
+              <span className="font-black text-lg uppercase tracking-wide flex items-center gap-2">
+                📥 Input Teks {mode === 'pipeline' && `(${pipelineSteps.length} Langkah Pipeline)`}
+              </span>
+              {input.trim() && (
+                <span
+                  className={`px-2.5 py-0.5 rounded-full border-2 border-black font-extrabold text-[11px] uppercase tracking-wide shadow-[2px_2px_0px_0px_#000000] flex items-center gap-1 ${
+                    detection.type === 'base64'
+                      ? 'bg-[#ffde59] text-black'
+                      : detection.type === 'hex'
+                      ? 'bg-[#c084fc] text-black'
+                      : detection.type === 'binary'
+                      ? 'bg-[#38bdf8] text-black'
+                      : detection.type === 'url'
+                      ? 'bg-[#f472b6] text-black'
+                      : detection.type === 'json'
+                      ? 'bg-[#4ade80] text-black'
+                      : 'bg-white dark:bg-black text-gray-800 dark:text-gray-200'
+                  }`}
+                  title={detection.description}
+                >
+                  <span>🔍</span>
+                  <span>{detection.label}</span>
+                </span>
+              )}
+            </div>
             <button
               onClick={() => { setInput(''); setOutput(''); setError(null); }}
-              className="text-xs font-bold underline hover:text-red-500 cursor-pointer text-gray-600 dark:text-gray-400"
+              className="text-xs font-bold underline hover:text-red-500 cursor-pointer text-gray-600 dark:text-gray-400 shrink-0"
             >
               Bersihkan
             </button>
@@ -171,6 +231,13 @@ export const EncryptorPanel: React.FC = () => {
             rows={6}
             className="w-full rounded-xl border-3 border-black dark:border-white bg-white dark:bg-[#121212] p-4 text-black dark:text-white font-mono text-sm shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#ffffff] focus:outline-none focus:ring-2 focus:ring-[#ffde59] resize-y min-h-[160px]"
           />
+
+          {input.trim() && detection.type !== 'text' && (
+            <div className="px-3 py-1.5 rounded-xl border-2 border-black/20 dark:border-white/20 bg-gray-50 dark:bg-[#262626] text-[11px] font-semibold text-gray-700 dark:text-gray-300 flex items-center gap-1.5">
+              <span>💡</span>
+              <span>{detection.description}</span>
+            </div>
+          )}
 
           {mode === 'single' && currentCipher.meta.needsKey && (
             <div className="mt-1">
@@ -259,6 +326,18 @@ export const EncryptorPanel: React.FC = () => {
           </div>
         </NeoCard>
       </div>
+
+      {/* History Panel */}
+      <HistoryPanel
+        history={history}
+        onDelete={(id) => setHistory(deleteHistoryItem(id))}
+        onClearAll={() => { clearHistory(); setHistory([]); }}
+        onLoadItem={(item) => {
+          setInput(item.input);
+          setOutput(item.output);
+          setError(null);
+        }}
+      />
     </div>
   );
 };

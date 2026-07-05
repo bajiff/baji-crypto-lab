@@ -15,6 +15,7 @@ import {
   verticalListSortingStrategy,
 } from '@dnd-kit/sortable';
 import { StepCard } from './StepCard';
+import { RecipeManager } from './RecipeManager';
 import { NeoCard } from '../shared/NeoCard';
 import { type CipherId, getAllCiphers } from '../../infrastructure/ciphers/cipher.registry';
 import { ArrowDown, ArrowUp, Layers } from 'lucide-react';
@@ -146,6 +147,9 @@ export const PipelineBuilder: React.FC<PipelineBuilderProps> = ({
           Dekripsi: Bawah ➔ Atas (Langkah #{steps.length} ➔ #1)
         </span>
       </div>
+
+      {/* Recipe Manager (Export/Import & Share) */}
+      <RecipeManager steps={steps} onLoadSteps={onChange} />
 
       {/* Sortable Steps List */}
       <DndContext
