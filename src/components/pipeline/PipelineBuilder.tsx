@@ -124,7 +124,7 @@ export const PipelineBuilder: React.FC<PipelineBuilderProps> = ({
             className="rounded-xl border-3 border-black dark:border-white bg-[#ffde59] dark:bg-[#facc15] px-4 py-2.5 text-black font-black text-sm shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#ffffff] hover:translate-x-[-1px] hover:translate-y-[-1px] hover:shadow-[4px_4px_0px_0px_#000000] active:translate-x-[1px] active:translate-y-[1px] active:shadow-[1px_1px_0px_0px_#000000] transition-all cursor-pointer"
           >
             <option value="" disabled className="bg-white text-black font-bold">
-              + Tambah Cipher...
+              + Tambah Algoritma
             </option>
             {allCiphers.map((c) => (
               <option key={c.meta.id} value={c.meta.id} className="bg-white text-black font-bold">

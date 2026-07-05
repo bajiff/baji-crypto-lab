@@ -16,9 +16,6 @@ import { APP_NAME, APP_DESCRIPTION } from '../lib/constants';
         <div>
           <h1 class="font-black text-2xl tracking-tight uppercase text-black dark:text-white flex items-center gap-2">
             {APP_NAME}
-            <span class="text-xs font-extrabold px-2 py-0.5 rounded-md border-2 border-black dark:border-white bg-[#4ade80] text-black shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#ffffff]">
-              v3.0 (Fase 3)
-            </span>
           </h1>
           <p class="text-xs font-bold text-gray-600 dark:text-gray-400 hidden sm:block">
             {APP_DESCRIPTION}
@@ -26,12 +23,7 @@ import { APP_NAME, APP_DESCRIPTION } from '../lib/constants';
         </div>
       </div>
 
-      <div class="flex items-center gap-3">
-        <div class="hidden md:flex items-center gap-2 px-3 py-1.5 rounded-lg border-2 border-black dark:border-white bg-[#fbebcd] dark:bg-[#262626] text-xs font-extrabold shadow-[2px_2px_0px_0px_#000000] dark:shadow-[2px_2px_0px_0px_#ffffff]">
-          ⚡ Astro 7 + React 19 + Tailwind v4
-        </div>
-        <ThemeToggle client:load />
-      </div>
+      
     </div>
   </header>
 
@@ -78,30 +70,17 @@ import { APP_NAME, APP_DESCRIPTION } from '../lib/constants';
       <EncryptorPanel client:load />
     </div>
 
-    {/* Architectural Info Card */}
-    <div class="w-full max-w-4xl p-6 rounded-2xl border-3 border-black dark:border-white bg-white dark:bg-[#1e1e1e] shadow-[6px_6px_0px_0px_#000000] dark:shadow-[6px_6px_0px_0px_#ffffff] flex flex-col sm:flex-row items-center justify-between gap-4">
-      <div>
-        <h3 class="font-black text-lg uppercase tracking-wide mb-1">🏗️ Clean Architecture + DRY + KISS</h3>
-        <p class="text-xs font-semibold text-gray-700 dark:text-gray-300">
-          Semua cipher mematuhi interface tunggal <code class="bg-gray-200 dark:bg-gray-800 px-1.5 py-0.5 rounded font-mono border border-black dark:border-gray-600">Cipher</code>. Menambah algoritma baru cukup registrasi 1 baris kode tanpa menyentuh UI!
-        </p>
-      </div>
-      <div class="shrink-0">
-        <div class="px-4 py-2.5 rounded-xl border-2 border-black dark:border-white bg-[#ffde59] dark:bg-[#facc15] text-black font-extrabold text-xs uppercase shadow-[3px_3px_0px_0px_#000000] dark:shadow-[3px_3px_0px_0px_#ffffff]">
-          🔥 Fase 3 Mode Kombinasi & Dnd
-        </div>
-      </div>
-    </div>
+    
   </main>
 
   {/* Footer */}
   <footer class="w-full border-t-4 border-black dark:border-white bg-[#fbebcd] dark:bg-[#1a1a1a] py-6 px-4 mt-auto">
     <div class="max-w-6xl mx-auto flex flex-col sm:flex-row items-center justify-between gap-4 font-bold text-xs">
       <p class="text-center sm:text-left">
-        © 2026 <span class="font-black uppercase">{APP_NAME}</span>. Dibuat khusus untuk <span class="px-2 py-0.5 rounded border border-black bg-[#ffde59] text-black font-extrabold">Tuan Baji</span>
+        © 2026 <span class="font-black uppercase">{APP_NAME}</span>. Make with Love by <span class="px-2 py-0.5 rounded border border-black bg-[#ffde59] text-black font-extrabold">Mr. Baji</span>
       </p>
       <p class="text-gray-600 dark:text-gray-400">
-        Arsitektur: <span class="font-extrabold text-black dark:text-white">Prof. Dr. Meki</span> (Senior Software Engineer)
+        Arsitektur: <span class="font-extrabold text-black dark:text-white">Baji Arsitektur</span>
       </p>
     </div>
   </footer>
